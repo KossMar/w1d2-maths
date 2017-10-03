@@ -1,13 +1,16 @@
 
 
 #import <Foundation/Foundation.h>
+#import "AdditionQuestion.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
      
         
+        AdditionQuestion *q1 = [[AdditionQuestion alloc] init];
+        
         char inputChar[256];
-        NSLog(@"enter a thing.");
+        NSLog(@"Solve the addition problem.");
         
         fgets(inputChar, 256, stdin);
         
@@ -15,7 +18,19 @@ int main(int argc, const char * argv[]) {
         
         NSString *parsedResult = [result stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
-        NSLog(@"%@", parsedResult);
+//        NSLog(@"%@", parsedResult);
+        
+        int userAnswer = [parsedResult intValue];
+        NSLog(@"%d", userAnswer);
+        
+        BOOL check = [q1 checkAnswer: userAnswer];
+        if (check == 1) {
+        NSLog(@"CORRECT");
+        }
+        else {
+           NSLog(@"INCORRECT");
+        }
+        
         
         
         
