@@ -2,39 +2,58 @@
 
 #import <Foundation/Foundation.h>
 #import "AdditionQuestion.h"
+#import "InputHandler.h"
+#import "ScoreKeeper.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
      
+        ScoreKeeper *score = [[ScoreKeeper alloc] init];
         
-        AdditionQuestion *q1 = [[AdditionQuestion alloc] init];
+        BOOL gameOn = YES;
         
-        char inputChar[256];
-        NSLog(@"Solve the addition problem.");
+        while (gameOn == YES)
+        {
         
-        fgets(inputChar, 256, stdin);
+            
+            AdditionQuestion *q1 = [[AdditionQuestion alloc] init];
+            
+            char inputChar[256];
+            fgets(inputChar, 256, stdin);
+            
+            NSString *parsedResult = [InputHandler takeInput: inputChar];
+            
+            
+            if ([parsedResult isEqual: @"quit"])
+                {
+                 gameOn = NO;
+                }
+            else
+            {
+            
+                int userAnswer = [parsedResult intValue];
+                NSLog(@"%d", userAnswer);
+                
+                BOOL check = [q1 checkAnswer: userAnswer];
+                if (check == YES)
+                {
+                    NSLog(@"RIGHT!");
+                }
+            
+                else
+                {
+                   NSLog(@"WRONG!");
+                }
+                
+                NSLog(@"%@", [score showScore:check]);
+
+                
+            }
         
-        NSString *result = [NSString stringWithCString:inputChar encoding:NSUTF8StringEncoding];
         
-        NSString *parsedResult = [result stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
-//        NSLog(@"%@", parsedResult);
-        
-        int userAnswer = [parsedResult intValue];
-        NSLog(@"%d", userAnswer);
-        
-        BOOL check = [q1 checkAnswer: userAnswer];
-        if (check == 1) {
-        NSLog(@"CORRECT");
         }
-        else {
-           NSLog(@"INCORRECT");
-        }
-        
-        
-        
-        
-        
-    }
+        NSLog(@"You quit, loser!");
+}
     return 0;
 }
